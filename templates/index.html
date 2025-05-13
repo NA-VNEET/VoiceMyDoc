@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VoiceMyDoc</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body class="bg-blue-100 min-h-screen flex items-center justify-center p-6">
+    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-500 to-purple-500 opacity-50">
+        VoiceMyDoc: Turn your documents into voice — read, listen, and download.
+    </div>
+    <div class="w-full max-w-3xl bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Upload a Document</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            <div id="drop-zone" class="border-2 border-dashed border-gray-300 rounded-md p-6 text-center bg-gray-50 hover:border-indigo-500 cursor-pointer transition">
+                <p class="text-gray-500">Drag and drop your file here, or click to select</p>
+                <input type="file" name="file" id="file-input" accept=".txt,.pdf,.docx" class="hidden" required>
+                <p id="file-name" class="mt-2 text-sm text-gray-700 font-medium"></p>
+            </div>
+
+            <div class="text-center">
+                <input type="submit" value="Upload" class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 cursor-pointer">
+            </div>
+        </form>
+
+        {% if content %}
+            <div class="mt-10">
+                <h3 class="text-xl font-medium text-gray-800 mb-2">File Content:</h3>
+                <div class="bg-gray-50 p-4 rounded-lg max-h-96 overflow-y-auto border border-gray-200">
+                    <pre class="text-sm text-gray-700">{{ content }}</pre>
+                </div>
+            </div>
+
+            {% if audio_url %}
+                <div class="mt-6">
+                    <h3 class="text-xl font-medium text-gray-800 mb-2">Audio Playback:</h3>
+                    <audio controls class="w-full bg-white rounded-lg shadow-sm">
+                        <source src="{{ audio_url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+
+                    <div class="mt-4 text-center">
+                        <a href="{{ audio_url }}" download="{{ audio_url.split('/')[-1] }}">
+                            <button type="button" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 text-center">
+                                Download MP3
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+    <script src="../static/script.js"></script>
+
+
+</body>
+</html>
